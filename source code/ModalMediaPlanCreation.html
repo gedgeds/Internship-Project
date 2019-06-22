@@ -1,0 +1,36 @@
+<p>
+  Ðablono kalba:
+</p>
+
+<select id="selectLanguage"></select>
+<hr/>
+
+<button onmouseup="closeDialogue()">Uþdaryti</button>
+<button onmouseup="generateMediaPlanTemplate()">Kurti Media planà</button>
+
+<script>
+  window.closeDialogue = function() {
+    google.script.host.close();
+  };
+  
+  window.generateMediaPlanTemplate = function() {
+    var selectLanguage = document.getElementById("selectLanguage");
+    var strLanguage = selectLanguage.options[selectLanguage.selectedIndex].text;
+    google.script.run.prepareMediaPlanTemplate(strLanguage);
+    google.script.host.close();
+  };
+  
+  function onLanguages(languages){
+  var select = document.getElementById("selectLanguage");
+    for(var i = 0; i < languages.length; i++) {
+      var opt = languages[i];
+      var el = document.createElement("option");
+      el.textContent = opt;
+      el.value = opt;
+      select.appendChild(el);
+    }
+  }
+  
+  google.script.run.withSuccessHandler(onLanguages).getLanguageOptionsHTML();
+  
+</script>

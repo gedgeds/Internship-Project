@@ -1,0 +1,58 @@
+<p>
+  Ðablono kalba:
+</p>
+
+<select id="selectLanguage"></select>
+<hr/>
+
+<p>
+  Kanalas:
+</p>
+
+<select id="selectChannel"></select>
+<hr/>
+
+
+<button onmouseup="closeDialogue()">Uþdaryti</button>
+<button onmouseup="generateOrderTemplate()">Kurti Uþsakymà</button>
+
+<script>
+  window.closeDialogue = function() {
+    google.script.host.close();
+  };
+  
+  window.generateOrderTemplate = function() {
+    var selectLanguage = document.getElementById("selectLanguage");
+    var strLanguage = selectLanguage.options[selectLanguage.selectedIndex].text;
+    var selectChannel = document.getElementById("selectChannel");
+    var strChannel = selectChannel.options[selectChannel.selectedIndex].text;
+    google.script.run.prepareOrderTemplate(strLanguage, strChannel);
+    google.script.host.close();
+  };
+  
+  function onLanguages(languages){
+  var select = document.getElementById("selectLanguage");
+    for(var i = 0; i < languages.length; i++) {
+      var opt = languages[i];
+      var el = document.createElement("option");
+      el.textContent = opt;
+      el.value = opt;
+      select.appendChild(el);
+    }
+  }
+  
+  function onChannels(channels){
+  var select = document.getElementById("selectChannel");
+    for(var i = 0; i < channels.length; i++) {
+      var opt = channels[i];
+      var el = document.createElement("option");
+      el.textContent = opt;
+      el.value = opt;
+      select.appendChild(el);
+    }
+  }
+  
+  google.script.run.withSuccessHandler(onLanguages).getLanguageOptionsHTML();
+  google.script.run.withSuccessHandler(onChannels).getChannelOptionsHTML();
+  
+</script>
